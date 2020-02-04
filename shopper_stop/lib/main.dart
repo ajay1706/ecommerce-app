@@ -1,3 +1,4 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:shopper_stop/widgets/drawer_screen.dart';
 
@@ -21,6 +22,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Widget img_carousel = Container(
+    height: 200,
+    child: Carousel(
+      boxFit: BoxFit.cover,
+
+      images: [
+        AssetImage("images/c1.jpg"),
+        AssetImage("images/m2.jpg"),
+        AssetImage("images/m1.jpeg"),
+        AssetImage("images/w1.jpeg"),
+        AssetImage("images/w3.jpeg"),
+        AssetImage("images/w4.jpeg"),
+
+      ],
+      autoplay: true,
+      animationCurve: Curves.fastOutSlowIn,
+      animationDuration: Duration(
+        milliseconds: 1000
+      ),
+      dotColor: Colors.black,
+      dotSize: 4.0,
+      indicatorBgPadding: 10.0,
+//      overlayShadowColors: Colors.white,
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +69,12 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: DrawerScreen(),
+
+      body: ListView(
+        children: <Widget>[
+          img_carousel
+        ],
+      ),
     );
   }
 }
