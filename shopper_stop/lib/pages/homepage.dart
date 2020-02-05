@@ -2,6 +2,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:shopper_stop/components/horizontal_listview.dart';
 import 'package:shopper_stop/components/products.dart';
+import 'package:shopper_stop/pages/shopping_cart.dart';
 import 'package:shopper_stop/widgets/drawer_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
       boxFit: BoxFit.cover,
 
       images: [
-        AssetImage("images/c1.jpg"),
+        AssetImage("images/c1.jpg",),
         AssetImage("images/m2.jpg"),
         AssetImage("images/m1.jpeg"),
         AssetImage("images/w1.jpeg"),
@@ -58,7 +59,9 @@ dotBgColor: Colors.transparent,
               Icons.shopping_cart,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext)=>Cart()));
+            },
           )
         ],
       ),

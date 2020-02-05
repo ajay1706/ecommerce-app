@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopper_stop/pages/shopping_cart.dart';
 
 
 class DrawerScreen extends StatelessWidget {
@@ -52,10 +53,13 @@ class DrawerScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: (){},
+            onTap: (){
+              Navigator.of(context).pop();
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext)=>Cart()));
+            },
             child: ListTile(
-              title: Text("Categories"),
-              leading: Icon(Icons.dashboard,color: Colors.black,
+              title: Text("Shopping Cart"),
+              leading: Icon(Icons.shopping_cart,color: Colors.black,
               ),
               trailing: Icon(Icons.arrow_forward_ios),
             ),

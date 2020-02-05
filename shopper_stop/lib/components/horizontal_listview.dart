@@ -37,7 +37,7 @@ class Category extends StatelessWidget {
       child: Padding(padding: const EdgeInsets.all(2),
       child: ListTile(
 
-          title: Image.asset(img_location,width: 100,height: 80,),
+          title: Image.asset(img_location,width: 100,height: 80,color: Colors.black,),
         subtitle: Text(
           img_caption,
           textAlign: TextAlign.center,

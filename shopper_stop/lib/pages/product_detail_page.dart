@@ -85,7 +85,7 @@ color: Colors.white70,
                     Expanded(child: Text("\$ ${widget.prod_detail_price}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Colors.black,
                           fontSize: 16
                       ),)),
                   ],
@@ -194,12 +194,12 @@ color: Colors.white70,
               Expanded(child: MaterialButton(
 
                 onPressed: (){},
-                color: Colors.blue,
+                color: Colors.black,
                 textColor: Colors.white,
                 elevation: 0.3,
                 child: Text("Buy",softWrap: true,
                 ),)),
-        IconButton(icon: Icon(Icons.add_shopping_cart,color: Colors.blue,), onPressed: (){}),
+        IconButton(icon: Icon(Icons.add_shopping_cart,color: Colors.black,), onPressed: (){}),
               IconButton(icon: Icon(Icons.favorite_border, color: Colors.red,), onPressed: (){})
 
 

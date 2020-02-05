@@ -117,6 +117,7 @@ class SimpleProduct extends StatelessWidget {
                     Expanded(
                       child: Text(prod_name,
                       style: TextStyle(
+                        color: Colors.black.withOpacity(0.7), 
                         fontWeight: FontWeight.bold,
                         fontSize: 16
                       ),),
@@ -124,7 +125,7 @@ class SimpleProduct extends StatelessWidget {
                     Text("\$${prod_price}",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue
+                          color: Colors.black
                       ),),
                   ],
                 )
