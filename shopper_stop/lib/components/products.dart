@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopper_stop/pages/product_detail_page.dart';
 
 class Products extends StatefulWidget {
   @override
@@ -18,6 +19,36 @@ class _ProductsState extends State<Products> {
       "picture": "images/products/dress1.jpeg",
       "old_price": "100",
       "price": "50"
+    },
+    {
+      "name": "Black dress",
+      "picture": "images/products/dress2.jpeg",
+      "old_price": "120",
+      "price": "70"
+    },
+    {
+      "name": "Womens Blazer",
+      "picture": "images/products/blazer2.jpeg",
+      "old_price": "130",
+      "price": "82"
+    },
+    {
+      "name":"Black Pant",
+      "picture": "images/products/pants1.jpg",
+      "old_price": "100",
+      "price": "55"
+    },
+    {
+      "name":"Grey Pant",
+      "picture": "images/products/pants2.jpeg",
+      "old_price": "110",
+      "price": "65"
+    },
+    {
+      "name":"Shoe",
+      "picture": "images/products/shoe1.jpg",
+      "old_price": "200",
+      "price": "75"
     }
   ];
 
@@ -61,16 +92,28 @@ class SimpleProduct extends StatelessWidget {
 
       child: Hero(tag: prod_name, child: Material(
         child: InkWell(
-          onTap: (){},
+
+
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => ProductDetail(
+            // passing the values of product to prod detail page
+            prod_detail_img: prod_pic,
+            prod_detail_name: prod_name,
+            prod_detail_oldprice: prod_old_price,
+            prod_detail_price: prod_price,
+
+          ))),
           child: GridTile(
               footer: Container(
+                height: 60,
                 color: Colors.white70,
                 child: ListTile(
+
                   leading: Text(prod_name,
+                  softWrap: true,
 
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 17
+                    fontSize: 15
                   ),),
                   title: Text("\$ ${prod_price}",
                     style: TextStyle(
@@ -85,7 +128,7 @@ class SimpleProduct extends StatelessWidget {
                   ),),
                 ),
               ),
-              child: Image.asset(prod_pic,fit: BoxFit.cover,)),
+              child: Image.asset(prod_pic,fit: BoxFit.fill,)),
         ),
       )),
     );
