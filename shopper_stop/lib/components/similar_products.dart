@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shopper_stop/components/products.dart';
 import 'package:shopper_stop/pages/product_detail_page.dart';
 
-class Products extends StatefulWidget {
+class SimilarProducts extends StatefulWidget {
   @override
-  _ProductsState createState() => _ProductsState();
+  _SimilarProductsState createState() => _SimilarProductsState();
 }
 
-class _ProductsState extends State<Products> {
+class _SimilarProductsState extends State<SimilarProducts> {
   var products = [
     {
       "name": "Blazer",
@@ -70,7 +71,7 @@ class _ProductsState extends State<Products> {
           prod_name: products[i]['name'],
           prod_pic: products[i]['picture'],
           prod_old_price: products[i]['old_price'],
-prod_price:             products[i]['price']
+          prod_price:             products[i]['price']
           ,
         ));
   }
@@ -86,10 +87,10 @@ class SimpleProduct extends StatelessWidget {
 
   const SimpleProduct(
       {Key key,
-      this.prod_name,
-      this.prod_pic,
-      this.prod_old_price,
-      this.prod_price})
+        this.prod_name,
+        this.prod_pic,
+        this.prod_old_price,
+        this.prod_price})
       : super(key: key);
 
   @override
@@ -111,23 +112,23 @@ class SimpleProduct extends StatelessWidget {
           child: GridTile(
               footer: Container(
 
-                color: Colors.white,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(prod_name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16
-                      ),),
-                    ),
-                    Text("\$${prod_price}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue
-                      ),),
-                  ],
-                )
+                  color: Colors.white,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(prod_name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16
+                          ),),
+                      ),
+                      Text("\$${prod_price}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue
+                        ),),
+                    ],
+                  )
               ),
               child: Image.asset(prod_pic,fit: BoxFit.fill,)),
         ),

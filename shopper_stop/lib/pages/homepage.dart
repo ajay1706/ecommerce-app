@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
       dotColor: Colors.black,
       dotSize: 4.0,
       indicatorBgPadding: 10.0,
+dotBgColor: Colors.transparent,
 //      overlayShadowColors: Colors.white,
     ),
   );
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             child: Text("Products"),),
 
           Container(
-            height: 320,
+            height: 450,
             child: Products(),
           )
 
