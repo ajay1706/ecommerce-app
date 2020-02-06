@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopper_stop/components/similar_products.dart';
 import 'package:shopper_stop/pages/homepage.dart';
+import 'package:shopper_stop/pages/shopping_cart.dart';
 
 class ProductDetail extends StatefulWidget {
   final prod_detail_name;
@@ -53,7 +54,10 @@ class _ProductDetailState extends State<ProductDetail> {
               Icons.shopping_cart,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext)=>Cart()));
+
+            },
           )
         ],
       ),

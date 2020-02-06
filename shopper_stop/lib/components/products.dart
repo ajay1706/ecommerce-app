@@ -66,12 +66,15 @@ class _ProductsState extends State<Products> {
           crossAxisCount: 2,
 
         ),
-        itemBuilder: (BuildContext context, int i) => SimpleProduct(
-          prod_name: products[i]['name'],
-          prod_pic: products[i]['picture'],
-          prod_old_price: products[i]['old_price'],
+        itemBuilder: (BuildContext context, int i) => Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: SimpleProduct(
+            prod_name: products[i]['name'],
+            prod_pic: products[i]['picture'],
+            prod_old_price: products[i]['old_price'],
 prod_price:             products[i]['price']
-          ,
+            ,
+          ),
         ));
   }
 }

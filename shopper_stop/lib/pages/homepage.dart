@@ -66,20 +66,21 @@ dotBgColor: Colors.transparent,
         ],
       ),
       drawer: DrawerScreen(),
-      body: ListView(
+      body: Column(
         children: <Widget>[
           //image carousel
           img_carousel,
           Padding(padding: const EdgeInsets.all(8),
-            child: Text("Categories"),),
+            child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text("Categories")),),
           HorizontalList(),
           Padding(padding: const EdgeInsets.all(8),
-            child: Text("Products"),),
+            child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(" Recent Products")),),
 
-          Container(
-            height: 450,
-            child: Products(),
-          )
+          Flexible(child: Products())
 
           //Horizontal ListView
 

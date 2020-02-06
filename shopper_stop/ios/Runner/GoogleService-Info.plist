@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>38223443956-ce4q82gee75a3nkaufmgnna3ks6mlpl5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.38223443956-ce4q82gee75a3nkaufmgnna3ks6mlpl5</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>38223443956-8t972uc6dkjdp59shmcilgqep1mmfmee.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCVJWbBVjJAwmfe_9uUHOeV4IoaUx57xKE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>38223443956</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.shopperStop</string>
+	<key>PROJECT_ID</key>
+	<string>ecomm-app-46cc8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ecomm-app-46cc8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:38223443956:ios:14c2af3f7be8f7ea892ba1</string>
+	<key>DATABASE_URL</key>
+	<string>https://ecomm-app-46cc8.firebaseio.com</string>
+</dict>
+</plist>
