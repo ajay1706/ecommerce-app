@@ -20,6 +20,8 @@ class _SignUpState extends State<SignUp> {
   SharedPreferences sharedPreferences;
   bool loading = false ;
   String gender ;
+  bool hidepass = true ;
+
 
   String groupValue = "male";
 
@@ -141,8 +143,8 @@ activeColor: Colors.black,                                value: "female", group
                             child: Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
                                 child: ListTile(
-                                  leading: TextFormField(
-                                    obscureText: true,
+                                  title: TextFormField(
+                                    obscureText: hidepass,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       isDense: true,
@@ -161,7 +163,11 @@ activeColor: Colors.black,                                value: "female", group
                                       return null;
                                     },
                                   ),
-                                  trailing: IconButton(icon: Icon(Icons.remove_red_eye), onPressed: null),
+                                  trailing: IconButton(icon: Icon(Icons.remove_red_eye ) , onPressed: (){
+                                   setState(() {
+                                     hidepass = false;
+                                   });
+                                  }),
                                 )))),
                     Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -171,28 +177,35 @@ activeColor: Colors.black,                                value: "female", group
                             color: Colors.white.withOpacity(0.5),
                             child: Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    hintText: "Confirm Password",
-                                    icon: Icon(Icons.lock_outline),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: _confirmPassController,
-                                  validator: (val) {
-                                    if (val.isEmpty) {
-                                      return "The password field cannot be empty";
-                                    }
-                                    else if (val.length < 6) {
-                                      return "password is too weak";
-                                    }
-                                    else if(_passwordController.value!= val){
-                                      return "Password didn't match";
+                                child: ListTile(
+                                  title: TextFormField(
+                                    obscureText: hidepass,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      hintText: "Confirm Password",
+                                      icon: Icon(Icons.lock_outline),
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: _confirmPassController,
+                                    validator: (val) {
+                                      if (val.isEmpty) {
+                                        return "The password field cannot be empty";
+                                      }
+                                      else if (val.length < 6) {
+                                        return "password is too weak";
+                                      }
+                                      else if(_passwordController.value!= val){
+                                        return "Password didn't match";
 
-                                    }
-                                    return null;
-                                  },
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  trailing: IconButton(icon:  Icon(Icons.remove_red_eye), onPressed: (){
+                                    setState(() {
+                                      hidepass = false;
+                                    });
+                                  }),
                                 )))),
           
                     Padding(
@@ -206,7 +219,10 @@ activeColor: Colors.black,                                value: "female", group
                           padding: const EdgeInsets.only(left: 12.0),
                           child: MaterialButton(
 
-                            onPressed: () {},
+                            onPressed: () {
+                              
+                              validateForm();
+                            },
                             minWidth: MediaQuery
                                 .of(context)
                                 .size
@@ -324,5 +340,14 @@ gender = e ;
 
       }
     });
+  }
+
+  void validateForm() {
+
+    FormState formState = _formkey.currentState;
+    if(formState.validate()){
+      
+    }
+
   }
 }
