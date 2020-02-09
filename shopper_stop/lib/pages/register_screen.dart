@@ -1,111 +1,27 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shopper_stop/pages/homepage.dart';
-import 'package:shopper_stop/pages/register_screen.dart';
+import 'package:shopper_stop/pages/login_page.dart';
 
-class LoginPage extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final GoogleSignIn googleSignIn = new GoogleSignIn();
+class _SignUpState extends State<SignUp> {
   final _formkey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
 
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPassController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   SharedPreferences sharedPreferences;
+  bool loading = false ;
+  String gender ;
 
-  bool loading = false;
-
-  bool isLoggedin = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isSignedin();
-  }
-
-  void isSignedin() async {
-    setState(() {
-      loading = true;
-    });
-    sharedPreferences = await SharedPreferences.getInstance();
-
-    isLoggedin = await googleSignIn.isSignedIn();
-    if (isLoggedin) {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-
-      setState(() {
-        loading = false;
-      });
-    }
-  }
-
-  Future<FirebaseUser> signIn() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-
-    setState(() {
-      loading = true;
-    });
-    GoogleSignInAccount googleUser = await googleSignIn.signIn();
-    GoogleSignInAuthentication gsa = await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
-      accessToken: gsa.accessToken,
-      idToken: gsa.idToken,
-    );
-    final FirebaseUser firebaseUser =
-        (await _firebaseAuth.signInWithCredential(credential)).user;
-//    final FirebaseUser firebaseUser = authResult.user;
-//
-//    final FirebaseUser user = authResult.user;
-
-    if (firebaseUser != null) {
-      final QuerySnapshot result = await Firestore.instance
-          .collection('users')
-          .where('id', isEqualTo: firebaseUser.uid)
-          .getDocuments();
-      final List<DocumentSnapshot> documents = result.documents;
-      if (documents == 0) {
-        //Insert user to collection
-
-        Firestore.instance
-            .collection('users')
-            .document(firebaseUser.uid)
-            .setData({
-          "id": firebaseUser.uid,
-          "username": firebaseUser.displayName,
-          "photoUrl": firebaseUser.photoUrl
-        });
-
-        await sharedPreferences.setString("id", firebaseUser.uid);
-        await sharedPreferences.setString("username", firebaseUser.displayName);
-        await sharedPreferences.setString("photoUrl", firebaseUser.photoUrl);
-      } else {
-        await sharedPreferences.setString("id", documents[0]['id']);
-        await sharedPreferences.setString("username", documents[0]['username']);
-        await sharedPreferences.setString("photoUrl", documents[0]['photoUrl']);
-        print(sharedPreferences.setString("photoUrl", documents[0]['photoUrl']));
-      }
-
-      Fluttertoast.showToast(msg: "Login was Successful!");
-
-      setState(() {
-        loading = false;
-      });
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePage()));
-    } else {
-      Fluttertoast.showToast(msg: "Login failed!");
-    }
-  }
+  String groupValue = "male";
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +47,56 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: <Widget>[
                     Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            elevation: 0,
+                            color: Colors.white.withOpacity(0.5),
+                            child: Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    hintText: "Name",
+                                    icon: Icon(Icons.person_outline),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: _nameController,
+
+                                )))),
+                    Container(
+                      height: 60,
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(9),
+                      padding: const EdgeInsets.only(left: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(child: ListTile(
+                            title: Text("Male",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontSize: 18,color: Colors.black),),
+                            leading: Radio(
+                                activeColor: Colors.black,
+                                value: "male", groupValue: groupValue, onChanged: (e) => valueChanged(e) ),
+                          )),
+                          Expanded(child: ListTile(
+                            title: Text("Female",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontSize: 18,color: Colors.black),),
+                            leading: Radio(
+activeColor: Colors.black,                                value: "female", groupValue: groupValue, onChanged: (e) => valueChanged(e) ),
+                          )),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Material(
                         borderRadius: BorderRadius.circular(10),
@@ -139,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 12.0),
                           child: TextFormField(
+                            cursorColor: Colors.black,
 
                             decoration: InputDecoration(
                               isDense: true,
@@ -173,15 +140,46 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white.withOpacity(0.5),
                             child: Padding(
                                 padding: const EdgeInsets.only(left: 12.0),
+                                child: ListTile(
+                                  leading: TextFormField(
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      isDense: true,
+                                      hintText: "Password",
+                                      icon: Icon(Icons.lock_outline),
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: _passwordController,
+                                    validator: (val) {
+                                      if (val.isEmpty) {
+                                        return "The password field cannot be empty";
+                                      }
+                                      else if (val.length < 6) {
+                                        return "password is too weak";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  trailing: IconButton(icon: Icon(Icons.remove_red_eye), onPressed: null),
+                                )))),
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                            borderRadius: BorderRadius.circular(10),
+                            elevation: 0,
+                            color: Colors.white.withOpacity(0.5),
+                            child: Padding(
+                                padding: const EdgeInsets.only(left: 12.0),
                                 child: TextFormField(
                                   obscureText: true,
                                   decoration: InputDecoration(
                                     isDense: true,
-                                    hintText: "Password",
+                                    hintText: "Confirm Password",
                                     icon: Icon(Icons.lock_outline),
                                   ),
                                   keyboardType: TextInputType.emailAddress,
-                                  controller: _emailController,
+                                  controller: _confirmPassController,
                                   validator: (val) {
                                     if (val.isEmpty) {
                                       return "The password field cannot be empty";
@@ -189,9 +187,14 @@ class _LoginPageState extends State<LoginPage> {
                                     else if (val.length < 6) {
                                       return "password is too weak";
                                     }
+                                    else if(_passwordController.value!= val){
+                                      return "Password didn't match";
+
+                                    }
                                     return null;
                                   },
                                 )))),
+          
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Material(
@@ -208,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .of(context)
                                 .size
                                 .width,
-                            child: Text('Login ',
+                            child: Text('Register ',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white,
@@ -221,14 +224,20 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     InkWell(
-                      child: Text("Sign up",
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 18
-                      ),),
+
+                      child: Text("Login",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          backgroundColor: Colors.black54,
+
+                        ),),
                       onTap: (){
+
                         Navigator.of(context)
-                            .pushReplacement(MaterialPageRoute(builder: (context) => SignUp()));
+                            .pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
                       },
 
                     )
@@ -245,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
 //                          )
 //                        ]
 //                      )),
-                  ,
+                    ,
                     Expanded(child: Container()),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -265,7 +274,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: MaterialButton(
 
                             onPressed: () {
-                              signIn();
+//                              signIn();
                             }
                             ,
                             minWidth: MediaQuery
@@ -300,5 +309,20 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  valueChanged(e) {
+
+    setState(() {
+      if(e == "male"){
+groupValue = e ;
+gender = e ;
+      }
+      else if(e == "female"){
+        groupValue =e ;
+        gender = e;
+
+      }
+    });
   }
 }
