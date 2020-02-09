@@ -1,11 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shopper_stop/pages/shopping_cart.dart';
 
 
 class DrawerScreen extends StatelessWidget {
+
+  final name;
+  final photoUrl ;
+
   const DrawerScreen({
-    Key key,
+    Key key, this.name, this.photoUrl,
   }) : super(key: key);
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +26,7 @@ class DrawerScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white
             ),
-            accountName: Text("Ajay",
+            accountName: Text(name,
               style: TextStyle(
                   color: Colors.black
               ), ),
@@ -29,7 +37,7 @@ class DrawerScreen extends StatelessWidget {
             currentAccountPicture: GestureDetector(
               child: CircleAvatar(
                 backgroundColor: Colors.black12,
-                child: Icon(Icons.person,color: Colors.black,),
+                child: Image.asset(photoUrl),
               ),
             ),
           ),
