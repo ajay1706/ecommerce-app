@@ -13,6 +13,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GoogleSignIn googleSignIn = new GoogleSignIn();
+  final _formkey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+
+  TextEditingController _passwordController = TextEditingController();
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   SharedPreferences sharedPreferences;
 
@@ -44,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<FirebaseUser> signIn() async {
-
     sharedPreferences = await SharedPreferences.getInstance();
 
     setState(() {
@@ -101,39 +105,161 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Center(
-            child: FlatButton(onPressed: signIn, child: Text('Login',
-            style: TextStyle(color: Colors.white),),color: Colors.black,),
-          ),
-          Visibility(
-            visible: loading??true,
-
-              child: Center(
-                child: Container(
-                  color: Colors.white.withOpacity(0.7),
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+        body: Stack(
+          children: <Widget>[
+            Image.asset(
+              "images/back.jpg",
+              fit: BoxFit.fill,
+              height: double.infinity,
+              width: double.infinity,
             ),
-          ),
-              ))
-        ],
-      ),
-      bottomNavigationBar:Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-    decoration: BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(8)),
-    color: Colors.black
-    ),
-          child: FlatButton(onPressed: signIn, child: Text("Google",
-    style: TextStyle(
-    fontSize: 18,
-    color: Colors.white
-    ),),
-          )
-    ),
-      ));
+            Container(
+              color: Colors.black.withOpacity(0.4),
+              width: double.infinity,
+              height: double.infinity,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top:300.0),
+              child: Form(
+                  key: _formkey,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(10),
+                          elevation: 0,
+                          color: Colors.white.withOpacity(0.8),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: TextFormField(
+
+                              decoration: InputDecoration(
+                                isDense: true,
+                                focusColor: Colors.black,
+                                fillColor: Colors.black,
+                                hintText: "Email",
+                                icon: Icon(Icons.mail),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              controller: _emailController,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  Pattern pattern =
+                                      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+                                  RegExp regex = new RegExp(pattern);
+                                  if (!regex.hasMatch(value))
+                                    return 'Please make sure your email address is valid';
+                                  else
+                                    return null;
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                              borderRadius: BorderRadius.circular(10),
+                              elevation: 0,
+                              color: Colors.white.withOpacity(0.8),
+                              child: Padding(
+                                  padding: const EdgeInsets.only(left: 12.0),
+                                  child: TextFormField(
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      hintText: "Password",
+                                      icon: Icon(Icons.lock_outline),
+                                    ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    controller: _emailController,
+                                    validator: (val){
+                                      if(val.isEmpty){
+                                        return "The password field cannot be empty";
+                                      }
+                                      else if(val.length < 6){
+                                        return "password is too weak";
+
+                                      }
+                                      return null;
+                                    },
+                                  )))),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20),
+                          elevation: 0,
+                          color: Colors.black,
+
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                           child: MaterialButton(
+
+                             onPressed: (){},
+                             minWidth: MediaQuery.of(context).size.width,
+                             child: Text('Login ',
+                               textAlign: TextAlign.center,
+                             style: TextStyle(
+                               color: Colors.white,
+                               fontSize: 18,
+                               fontWeight: FontWeight.w600
+                             ),),
+                           ),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container()), 
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Divider(
+
+                          color: Colors.white,thickness: 1,),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Material(
+                          borderRadius: BorderRadius.circular(20),
+                          elevation: 0,
+                          color: Colors.red,
+
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: MaterialButton(
+
+                              onPressed:(){
+                                signIn();}
+                              ,
+                              minWidth: MediaQuery.of(context).size.width,
+                              child: Text('Google ',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600
+                                ),),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+//            Visibility(
+//                visible: loading ?? false,
+//                child: Center(
+//                  child: Container(
+//                    alignment: Alignment.center,
+//                    color: Colors.white.withOpacity(0.2),
+//                    child: CircularProgressIndicator(
+//                      valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+//                    ),
+//                  ),
+//                ))
+          ],
+        ),
+      );
   }
 }
